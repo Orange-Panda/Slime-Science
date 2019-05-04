@@ -1,0 +1,17 @@
+Primary:
+Green:	#00FF58
+Red:	#FF4D4D
+Blue:	#009FFF
+
+Primary Secondaries:
+Orange:	#F28F20
+Purple:	#6E398D
+Yellow:	#F1E70D
+
+Secondaries:
+Lime Green		(between yellow and green):		#8CBD3F
+Light Blue		(between blue and green):		#1D96BB
+Dark Blue		(between blue and purple):		#424F9B
+Pink			(between red and purple):		#C31A7F
+Red Orange		(between red and orange):		#EC6224
+Yellow Orange	(between yellow and orange):	#FDC70F
