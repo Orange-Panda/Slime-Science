@@ -1,68 +1,77 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using SlimeScience;
+using UnityEngine.UI;
 
-public class SlimeTracker : MonoBehaviour, IPointerClickHandler {
+/// <summary>
+/// Tracks an instance of a slime in the scene.
+/// </summary>
+public class SlimeTracker : MonoBehaviour, IPointerClickHandler
+{
+	public bool isLocked = false;
+	public int slimeMultiplier, initialMultiplier = 1;
+	public int blueValue, greenValue, redValue;
+	public SlimeType thisSlime;
+	public Image lockImage;
 
-    public bool isLocked = false;
-    public int slimeMultiplier, initialMultiplier = 1;
-    public int blueValue, greenValue, redValue;
-    //public string TextCounter;
-    public enum SlimeType { Blue, Green, Red };
-    public SlimeType thisSlime;
-    
-    SlimeBalance SB = new SlimeBalance();
+	private void Start()
+	{
+		lockImage.enabled = isLocked;
+		slimeMultiplier = initialMultiplier;
+		UpdateText();
+	}
 
-    private void Start()
-    {
-        GameObject lockedImage = GameObject.Find("" + gameObject.name + "/TheLock");
-        if (isLocked) { lockedImage.SetActive(true); }
-        else { lockedImage.SetActive(false);  }
-        slimeMultiplier = initialMultiplier;
-        UpdateText();
-    }
+	/// <summary>
+	/// Increases the slime value by one.
+	/// </summary>
+	public void SlimeIncrement()
+	{
+		if (!isLocked && slimeMultiplier < 5)
+		{
+			slimeMultiplier++;
+			UpdateText();
+		}
+		else
+		{
+			//TODO: Play error feedback.
+		}
+	}
 
-    public void SlimeIncrement()
-    {
-        if (!isLocked)
-        {
-            if (slimeMultiplier < SB.maxSlimes) { slimeMultiplier++; UpdateText(); }
-            else { } // play error sound TODO
-        }
-        else
-        {
-            // play error sound TODO
-        }
+	/// <summary>
+	/// Resets the slime value back to one.
+	/// </summary>
+	public void SlimeReassemble()
+	{
+		if (!isLocked)
+		{
+			slimeMultiplier = 1;
+			UpdateText();
+		}
+		else
+		{
+			//TODO: Play error feedback.
+		}
+	}
 
-    }
+	public void UpdateText()
+	{
+		Text textSlimeTracker = GetComponentInChildren<Text>();
+		textSlimeTracker.text = slimeMultiplier == 1 ? "" : slimeMultiplier.ToString();
+	}
 
-    public void SlimeReassemble()
-    {
-        if (!isLocked)
-        {
-            slimeMultiplier = 1;
-            UpdateText();
-        }
-        else
-        {
-            // play error sound TODO
-        }
-    }
-
-    public void UpdateText()
-    {
-        Text textSlimeTracker = GetComponentInChildren<Text>();
-        if (slimeMultiplier == 1) { textSlimeTracker.text = ""; }
-        else { textSlimeTracker.text = "" + slimeMultiplier; }
-
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left) { SlimeIncrement(); }
-        else if (eventData.button == PointerEventData.InputButton.Right) { SlimeReassemble(); }
-    }
+	public void OnPointerClick(PointerEventData eventData)
+	{
+		if (eventData.button == PointerEventData.InputButton.Left)
+		{
+			SlimeIncrement();
+		}
+		else if (eventData.button == PointerEventData.InputButton.Right)
+		{
+			SlimeReassemble();
+		}
+	}
 }
+
+public enum SlimeType
+{
+	Blue, Green, Red
+};

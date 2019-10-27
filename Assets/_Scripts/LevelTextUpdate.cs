@@ -1,23 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelTextUpdate : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-
+/// <summary>
+/// Sets the text to reflect the current level.
+/// </summary>
+public class LevelTextUpdate : MonoBehaviour
+{
+	void Start ()
+	{
         if (GameData.control)
         {
             Text levelText = GetComponentInChildren<Text>();
-            levelText.text = "LEVEL " + GameData.control.currentLevel;
+            levelText.text = string.Format("LEVEL {0}", GameData.control.currentLevel);
         }
-
+		else
+		{
+			Text levelText = GetComponentInChildren<Text>();
+			levelText.text = "LEVEL UNKNOWN";
+		}
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
